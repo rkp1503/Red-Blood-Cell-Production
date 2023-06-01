@@ -1,0 +1,73 @@
+%-----------------------------------------------------------------------------
+% Supported entry types
+%-----------------------------------------------------------------------------
+article, book, mvbook, inbook, bookinbook, suppbook, booklet, collection, 
+mvcollection, incollection, suppcollection, manual, misc, online, patent, 
+periodical, suppperiodical, proceedings, mvproceedings, inproceedings, 
+reference, mvreference, inreference, report, set, thesis, unpublished, custom, 
+conference, electronic, masterthesis, phdthesis, techreport
+
+%-----------------------------------------------------------------------------
+% Supported entry fields (The printed information depends on the bibliography style)
+%-----------------------------------------------------------------------------
+abstract, addendum, afterword, annotate, author, authortype, bookauthor, 
+bookpagination, booksubtitle, booktitle, chapter, commentator, date, doi, 
+edition, editor, editortype, eid, entrysubtype, eprint, eprinttype, 
+eprintclass, eventdate, eventtitle, file, foreword, holder, howpublished, 
+indextitle, institution, introduction, isan, isbn, ismn, isrn, issue, 
+issuesubtitle, issuetitle, iswc, journalsubtitle, journaltitle, label, 
+language, library, location, mainsubtitle, maintitle, month, note, number, 
+organization, origdate, origlanguage, origlocation, origpublisher, origtitle, 
+pages, pagetotal, pagination, part, publisher, pubstate, reprinttitle, series, 
+shortauthor, shortedition, shorthand, shorthandintro, shortjournal, 
+shortseries, shorttitle, subtitle, title, translator, type, url, venue, 
+version, volume, year
+
+%-----------------------------------------------------------------------------
+% Bibliography sorting options
+%-----------------------------------------------------------------------------
+nty: sort by name, title, year
+nyt: sort by name, year, title
+nyvt: sort by name, year, volume, title
+anyt: sort by alphabetic label, name, year, title
+anyvt: sort by alphabetic label, name, year, volume, title
+ydnt: sort by year (descending), name, title
+none: entries are processed in citation order
+
+%-----------------------------------------------------------------------------
+% Citations
+%-----------------------------------------------------------------------------
+@book{book1,
+    author    = "Edelstein-Keshet, L.",
+    title     = "Mathematical models in biology",
+    year      = "2005",
+    publisher = "Society for Industrial and Applied Mathematics",
+    address   = "Philadelphia"
+}
+
+@article{article1,
+    ISSN = {00071447},
+    URL = {http://www.jstor.org/stable/25417502},
+    author = {G. W. G. Bird},
+    journal = {The British Medical Journal},
+    number = {5795},
+    pages = {293--297},
+    publisher = {BMJ},
+    title = {The Red Cell},
+    volume = {1},
+    year = {1972}
+}
+
+@article{article2,
+    title={Fetal Erythrocyte Lifespan},
+    author={K. Harrison},
+    journal={Journal of Paediatrics and Child Health},
+    year={1979},
+    volume={15}
+}
+
+@misc{web1,
+    author    = "Red Cross Blood",
+    title     = "Red Blood Cells and Why They Are Important",
+    url       = "https://www.redcrossblood.org/donate-blood/dlp/red-blood-cells.html#:~:text=What\%20Is\%20the\%20Function\%20of,our\%20lungs\%20to\%20be\%20exhaled."
+}
