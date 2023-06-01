@@ -2,6 +2,8 @@
 Author: Ramsey (Rayla) Phuc
 
 Alias: Rayla Kurosaki
+
+GitHub: https://github.com/rkp1503
 """
 
 import matplotlib.pyplot as plt
