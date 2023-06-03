@@ -40,5 +40,5 @@ def populate(R_0: float, M_0: float, gammas: list[float], t: int) -> \
 
 def main(R_0: float, M_0: float, gammas: list[float], t: int) -> None:
     ts, Rs, Ms = populate(R_0, M_0, gammas, t)
-    generate.plot(ts, Rs, R_0, gammas, "Linear Difference Model")
+    generate.plot(ts, Rs, R_0, gammas, "Nonlinear-Difference-Model")
     return None
