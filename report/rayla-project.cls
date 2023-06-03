@@ -46,12 +46,29 @@
 }
 
 %-----------------------------------------------------------------------------
-% bibliography settings
+% Custom referencing
+%-----------------------------------------------------------------------------
+% Referencing equations
+% Use `~\eqref{eq:1}'
+% Referencing figures
+\newcommand{\figref}[1]{Figure~\ref{#1}}
+% Referencing tables
+\newcommand{\tabref}[1]{Table~\ref{#1}}
+
+%-----------------------------------------------------------------------------
+% Bibliography settings
 %-----------------------------------------------------------------------------
 \usepackage[backend=biber,style=numeric,sorting=ynt]{biblatex}
 \addbibresource{main.bib}
 
 %-----------------------------------------------------------------------------
-% Dummy text
+% Enabling figures
+%-----------------------------------------------------------------------------
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage{epstopdf}
+
+%-----------------------------------------------------------------------------
+% Other 3rd party packages
 %-----------------------------------------------------------------------------
 \usepackage{lipsum}
