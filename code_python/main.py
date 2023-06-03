@@ -7,12 +7,8 @@ GitHub: https://github.com/rkp1503
 """
 
 # ----------------------------------------------------------------------------
-# 3rd party libraries
+# Custom libraries
 # ----------------------------------------------------------------------------
-import matplotlib.pyplot as plt
-import numpy as np
-
-from myLib import generate
 from phases import phase1
 from phases import phase2
 from phases import phase3
