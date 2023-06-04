@@ -25,6 +25,7 @@
 \usepackage[backend=biber,style=numeric,sorting=ynt]{biblatex}
 \usepackage{geometry}
 \usepackage{graphicx,epstopdf}
+\usepackage{hyperref}
 \usepackage{lipsum}
 
 %-----------------------------------------------------------------------------
@@ -61,9 +62,9 @@
 %-----------------------------------------------------------------------------
 % Custom referencing
 %-----------------------------------------------------------------------------
-% Referencing a section
+% Referencing Sections
 \newcommand{\secref}[1]{Section~\ref{#1}}
-% Referencing an appendix
+% Referencing Appendicies
 \newcommand{\appref}[1]{Appendix~\ref{#1}}
 % Referencing an equation
 \renewcommand{\eqref}[1]{Equation~(\ref{#1})}
