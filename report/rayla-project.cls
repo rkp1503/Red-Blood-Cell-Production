@@ -25,6 +25,7 @@
 \usepackage[backend=biber,style=numeric,sorting=ynt]{biblatex}
 \usepackage{geometry}
 \usepackage{graphicx,epstopdf}
+\usepackage{hyperref}
 \usepackage{lipsum}
 
 %-----------------------------------------------------------------------------
