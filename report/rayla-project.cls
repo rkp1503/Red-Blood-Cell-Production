@@ -14,6 +14,7 @@
 \usepackage{geometry}
 \usepackage{graphicx,epstopdf}
 \usepackage{hyperref}
+\usepackage{ifthen}
 \usepackage{lipsum}
 
 %-----------------------------------------------------------------------------
@@ -59,18 +60,16 @@
 %-----------------------------------------------------------------------------
 % Custom referencing
 %-----------------------------------------------------------------------------
-% Referencing Sections
-\newcommand{\secref}[1]{Section~\ref{#1}}
-% Referencing Appendicies
-\newcommand{\appref}[1]{Appendix~\ref{#1}}
-% Referencing an equation
-\renewcommand{\eqref}[1]{Equation~(\ref{#1})}
-% Referencing a system of equations
-\newcommand{\sysref}[1]{System~(\ref{#1})}
-% Referencing a figure
-\newcommand{\figref}[1]{Figure~\ref{#1}}
-% Referencing a table
-\newcommand{\tabref}[1]{Table~\ref{#1}}
+\DeclareRobustCommand{\myref}[2][]{%
+    \ifthenelse{\equal{#1}{Equation} \OR \equal{#1}{System} \OR \equal{#1}{Model} \OR \equal{#1}{Matrix}}
+    {#1~\eqref{#2}}
+    {#1~\ref{#2}}%
+}
+
+%-----------------------------------------------------------------------------
+% Inclusion of section number in equation numbering
+%-----------------------------------------------------------------------------
+\numberwithin{equation}{section}
 
 %-----------------------------------------------------------------------------
 % Bibliography settings
