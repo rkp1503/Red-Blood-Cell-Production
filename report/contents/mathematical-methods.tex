@@ -24,7 +24,7 @@ Based on the given initial assumptions and simplifications as well as the initia
 
 \subsubsection{Analysis: Equilibrium}
 
-Instead of using a system of linear difference equations, we can use a higher-order homogeneous linear difference equation. From \eqref{eq:linear-difference-model-system}, we can use the expression of $M_{n+1}$ and substitute it into the expression of $R_{n+1}$, giving us:
+Instead of using a system of linear difference equations, we can use a higher-order homogeneous linear difference equation. From \myref[Equation]{eq:linear-difference-model-system}, we can use the expression of $M_{n+1}$ and substitute it into the expression of $R_{n+1}$, giving us:
 
 \begin{equation}
     R_{n+1} =  (1-f)R_n + \gamma fR_{n-1}
@@ -48,7 +48,7 @@ From this, we can solve for $\bar{R}$:
 
 This value of $\bar{R}$ is the particular solution to our difference equation and is not that interesting because this value of $\bar{R}$ tells us that a possible equilibrium state is where there are no Red Blood Cells present in the human body. \\
 
-What is interesting is the values of $f$ and $\gamma$ from \eqref{eq:R-bar-value}. Assuming that $\bar{R} \neq 0$, then we can derive the following expression:
+What is interesting is the values of $f$ and $\gamma$ from \myref[Equation]{eq:R-bar-value}. Assuming that $\bar{R} \neq 0$, then we can derive the following expression:
 
 \begin{align} 
     0 &= \bar{R}[(1-f) + \gamma f - 1] \nonumber\\
@@ -57,16 +57,16 @@ What is interesting is the values of $f$ and $\gamma$ from \eqref{eq:R-bar-value
     0 &= f(\gamma - 1), \label{eq:parameter-values}
 \end{align}
 
-where \eqref{eq:parameter-values} yields $f=0$ and $\gamma=1$. Here, we can ignore this value of $f$. This is because this value of $f$ implies that in order to maintain a constant production of Red Blood Cells in the body, the spleen must not remove any Red Blood Cells. This result implies a few contradictions. For starters, this contradicts our first initial assumption where we assumed that the spleen filters out and destroys a certain amount of Red Blood Cells every day. This also contradicts the fact that if the spleen does not filter out and destroy Red Blood Cells, then the number of Red Blood Cells will continue to increase without a limit. Thus, we can assume that $f\neq0$.\\
+where \myref[Equation]{eq:parameter-values} yields $f=0$ and $\gamma=1$. Here, we can ignore this value of $f$. This is because this value of $f$ implies that in order to maintain a constant production of Red Blood Cells in the body, the spleen must not remove any Red Blood Cells. This result implies a few contradictions. For starters, this contradicts our first initial assumption where we assumed that the spleen filters out and destroys a certain amount of Red Blood Cells every day. This also contradicts the fact that if the spleen does not filter out and destroy Red Blood Cells, then the number of Red Blood Cells will continue to increase without a limit. Thus, we can assume that $f\neq0$.\\
 
-However, this value of $\gamma$ is significant. This would imply that to maintain an equilibrium of Red Blood Cells in the human body, the spleen must produce one Red Blood Cell for each one destroyed. This makes sense since adding a Red Blood Cell after removing a Red Blood Cell should not impact the equilibrium state drastically. With further analysis, we can confirm this value of $\gamma$. To do this, we can rewrite \eqref{eq:linear-difference-model-equation} in the following form:
+However, this value of $\gamma$ is significant. This would imply that to maintain an equilibrium of Red Blood Cells in the human body, the spleen must produce one Red Blood Cell for each one destroyed. This makes sense since adding a Red Blood Cell after removing a Red Blood Cell should not impact the equilibrium state drastically. With further analysis, we can confirm this value of $\gamma$. To do this, we can rewrite \myref[Equation]{eq:linear-difference-model-equation} in the following form:
 
 \begin{equation}
     R_{n+1} - (1-f)R_n - \gamma fR_{n-1} = 0
     \label{eq:linear-difference-model-equation-2}
 \end{equation}
 
-which shows that \eqref{eq:linear-difference-model-equation-2} is a homogeneous equation. Thus, the complementary solution is in the form of:
+which shows that \myref[Equation]{eq:linear-difference-model-equation-2} is a homogeneous equation. Thus, the complementary solution is in the form of:
 
 \begin{equation*}
     R_n = c_1\lambda_1^n + c_2\lambda_2^n
@@ -79,7 +79,7 @@ where $c_1,c_2$ are constants. To find these lambda values, we will solve the fo
     \label{eq:linear-difference-model-characteristic-equation}
 \end{equation}
 
-Solving \eqref{eq:linear-difference-model-characteristic-equation} for $\lambda$ using the quadratic formula yields the following values of $\lambda$:
+Solving \myref[Equation]{eq:linear-difference-model-characteristic-equation} for $\lambda$ using the quadratic formula yields the following values of $\lambda$:
 
 \[
 \begin{dcases}
@@ -126,7 +126,7 @@ Knowing this value of $\lambda_2$, then we can say that the complementary soluti
 %     \label{fig:1}
 % \end{figure}
 
-\figref{fig:1} displays the plots for the state of the population of Red Blood Cells $P_0$ with the parameters $f=0.5$ and different values of $\gamma$. For $\gamma=1$, we can see that the graph is constant, meaning that the Red Blood Cell population is in equilibrium. For other values of $\gamma$, this does not hold. In \figref{fig:1}, we can see that for $\gamma = 0.5$, the number of Red Blood Cells will decrease and eventually go to 0. This shows that the population of Red Blood Cells will converge to 0 as $n\to\infty$ for $\gamma < 1$. In \figref{fig:1}, we can see that for $\gamma = 2$, the number of Red Blood Cells will increase without an upper bound. This shows that the population of Red Blood Cells will increase continuously as $n\to\infty$ for $\gamma > 1$.
+\myref[Figure]{fig:1} displays the plots for the state of the population of Red Blood Cells $P_0$ with the parameters $f=0.5$ and different values of $\gamma$. For $\gamma=1$, we can see that the graph is constant, meaning that the Red Blood Cell population is in equilibrium. For other values of $\gamma$, this does not hold. In \myref[Figure]{fig:1}, we can see that for $\gamma = 0.5$, the number of Red Blood Cells will decrease and eventually go to 0. This shows that the population of Red Blood Cells will converge to 0 as $n\to\infty$ for $\gamma < 1$. In \myref[Figure]{fig:1}, we can see that for $\gamma = 2$, the number of Red Blood Cells will increase without an upper bound. This shows that the population of Red Blood Cells will increase continuously as $n\to\infty$ for $\gamma > 1$.
 
 \subsection{Model 2}
 \label{subsec:model-2}
@@ -135,7 +135,7 @@ In this model, we will solve the problem through a continuous approach using ord
 
 \subsubsection{Building the Model}
 
-To create this model, we will start with \sysref{eq:linear-difference-model-system} and convert that to a system of ordinary differential equations. We will start by converting the first equation in \sysref{eq:linear-difference-model-system}. We can rewrite that equation in the following form:
+To create this model, we will start with \myref[System]{eq:linear-difference-model-system} and convert that to a system of ordinary differential equations. We will start by converting the first equation in \myref[System]{eq:linear-difference-model-system}. We can rewrite that equation in the following form:
 
 \begin{equation*}
     R_{n+1} - R_n = M_n - fR_n
@@ -166,7 +166,7 @@ We can simplify the left hand side and notice that if we take the limit as $\Del
     R'(t) &= M(t) - fR(t) \label{eq:linear-differential-equation-R}
 \end{align}
 
-We will convert the second equation in \sysref{eq:linear-difference-model-system} in a similar manner. We will first subtract $M_n$ on both sides:
+We will convert the second equation in \myref[System]{eq:linear-difference-model-system} in a similar manner. We will first subtract $M_n$ on both sides:
 
 \begin{equation*}
     M_{n+1} - M_n = \gamma fR_n - M_n
@@ -191,7 +191,7 @@ If we take the limit as $t\to\infty$, we have:
     M'(t) &= \gamma fR(t) - M(t).\label{eq:linear-differential-equation-M}
 \end{align}
 
-Therefore, with \eqref{eq:linear-differential-equation-R} and \eqref{eq:linear-differential-equation-M}, our system of differential equations are:
+Therefore, with \myref[Equation]{eq:linear-differential-equation-R} and \myref[Equation]{eq:linear-differential-equation-M}, our system of differential equations are:
 
 \begin{equation}
     \begin{dcases}
@@ -246,7 +246,7 @@ With this new assumption, our system of equations becomes
 
 \subsubsection{Analysis: Equilibrium}
 
-We can rewrite \sysref{eq:nonlinear-difference-model-system} as one, higher order, nonlinear difference equation.
+We can rewrite \myref[System]{eq:nonlinear-difference-model-system} as one, higher order, nonlinear difference equation.
 
 \begin{equation}
     R_{n+1} = \frac{R_n}{1 + R_n} + R_{n-1}\gamma-\frac{R_{n-1}\gamma}{1+R_{n-1}}
@@ -263,7 +263,7 @@ If we assumed that there exists an equilibrium state for the Red Blood Cell popu
      0 &= \bar{R}(1-\gamma)
 \end{align*}
 
-From this, we can conclude that the system will maintain an equilibrium state under two conditions. Both of which were present when we did a similar analysis on Model 1. We can rewrite \eqref{eq:nonlinear-difference-model-equation} in the following form of a homogeneous equation:
+From this, we can conclude that the system will maintain an equilibrium state under two conditions. Both of which were present when we did a similar analysis on Model 1. We can rewrite \myref[Equation]{eq:nonlinear-difference-model-equation} in the following form of a homogeneous equation:
 
 \begin{equation*}
     R_{n+1} - \frac{R_n}{1 + R_n} - R_{n-1}\gamma + \frac{R_{n-1}\gamma}{1+R_{n-1}} = 0
@@ -286,4 +286,4 @@ Here, it will be difficult to find the analytic solution of $\lambda$. But we ca
     \implies \gamma &= 1, \label{eq:nonlinear-difference-model-param-val}
 \end{align}
 
-which further supports the fact that $\gamma = 1$ is the condition where the number of Red Blood Cells in the human body will maintain in an equilibrium state. \figref{fig:2} plots \sysref{eq:nonlinear-difference-model-system} for three different values of $\gamma$. Just like in Model 1, it is clear that the Red Blood Cell population will be in an equilibrium state when $\gamma = 1$, explode to infinity for $\gamma > 1$, and diminish to 0 for $\gamma < 1$.
+which further supports the fact that $\gamma = 1$ is the condition where the number of Red Blood Cells in the human body will maintain in an equilibrium state. \myref[Figure]{fig:2} plots \myref[System]{eq:nonlinear-difference-model-system} for three different values of $\gamma$. Just like in Model 1, it is clear that the Red Blood Cell population will be in an equilibrium state when $\gamma = 1$, explode to infinity for $\gamma > 1$, and diminish to 0 for $\gamma < 1$.
