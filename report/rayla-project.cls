@@ -17,18 +17,6 @@
 \usepackage{lipsum}
 
 %-----------------------------------------------------------------------------
-% Defining new commands
-%-----------------------------------------------------------------------------
-\newcommand{\myUniversity}[1]{\newcommand{\myUniversityLoc}{#1}}
-\newcommand{\myTitle}[1]{\newcommand{\myTitleLoc}{#1}}
-\newcommand{\myName}[1]{\newcommand{\myNameLoc}{#1}}
-\newcommand{\courseid}[1]{\newcommand{\courseidLoc}{#1}}
-\newcommand{\courseName}[1]{\newcommand{\courseNameLoc}{#1}}
-\newcommand{\professorName}[1]{\newcommand{\professorNameLoc}{#1}}
-\newcommand{\term}[1]{\newcommand{\termLoc}{#1}}
-\newcommand{\dueDate}[1]{\newcommand{\dueDateLoc}{#1}}
-
-%-----------------------------------------------------------------------------
 % Geometry
 %-----------------------------------------------------------------------------
 \geometry{left=2cm,right=2cm,top=2cm,bottom=2cm}
@@ -38,10 +26,19 @@
 % Setting figures directory
 %-----------------------------------------------------------------------------
 \graphicspath{{figures/}}
-    
+
 %-----------------------------------------------------------------------------
 % Custom Title Style
 %-----------------------------------------------------------------------------
+\newcommand{\myUniversity}[1]{\newcommand{\myUniversityLoc}{#1}}
+\newcommand{\myTitle}[1]{\newcommand{\myTitleLoc}{#1}}
+\newcommand{\myName}[1]{\newcommand{\myNameLoc}{#1}}
+\newcommand{\courseid}[1]{\newcommand{\courseidLoc}{#1}}
+\newcommand{\courseName}[1]{\newcommand{\courseNameLoc}{#1}}
+\newcommand{\professorName}[1]{\newcommand{\professorNameLoc}{#1}}
+\newcommand{\term}[1]{\newcommand{\termLoc}{#1}}
+\newcommand{\dueDate}[1]{\newcommand{\dueDateLoc}{#1}}
+    
 \renewcommand{\maketitle}{
     \thispagestyle{plain}
     \begin{center}
