@@ -6,7 +6,6 @@ Project: Red Blood Cell Production
 =============================================================================#
 
 module phase1
-    using Plots
 
     export solve_model
     function solve_model(model, R₀, M₀, f, γₛ, tₘₐₓ)
@@ -25,30 +24,5 @@ module phase1
             Mₛ[i₁, :] = Mₛᵢ
         end
         return tₛ, Rₛ, Mₛ
-    end;
-
-    export myPlot
-    function myPlot(tₛ, Rₛ, γₛ, filename, colors, normalize=1)
-        figure = Plots.plot(
-            title="Red Blood Cell Population over $(length(tₛ) - 1) Days", 
-            xaxis="Time in days", 
-            yaxis="Percentage of Red Blood Cell Population", 
-            legend=:outertopright,  
-            foreground_color_grid="#000000", 
-            gridalpha=1, 
-            gridlinewidth=:1.5, 
-            minorgrid=true, 
-            foreground_color_minor_grid=:"#FF0000", 
-            minorgridalpha=0.75
-            )
-        # Graph the solutions to the proposed model.
-        for (i, (γ, color)) in enumerate(zip(γₛ, colors))
-            Plots.plot!(
-                figure, tₛ, Rₛ'[:, i]/normalize, label="γ=$γ", linecolor=color, 
-                linewidth=2
-                )
-        end
-        # Display the figure.
-        return figure
     end;
 end
