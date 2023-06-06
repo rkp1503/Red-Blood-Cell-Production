@@ -7,35 +7,46 @@ using InteractiveUtils
 # ╔═╡ 20a4cf75-5e7d-44e2-9abf-0ecb02da354f
 #=============================================================================
 This block of code imports relevant packages that are needed to run this 
-notebook adn generate a table of contents on the right hand side of the screen
+notebook and generate a table of contents on the right hand side of the 
+screen.
 =============================================================================#
 begin
+	#=========================================================================
+	Registed packages
+	=========================================================================#
 	# Numerically solve differential equations.
 	using DifferentialEquations
-	# Plotting API and toolset.
-	using Plots
 	# High-performance symbolic-numeric computation.
 	using ModelingToolkit
-	# Make html"<input>" a bit more Julian.
-	using PlutoUI
 	# A package to maintain the order of dictionaries.
 	using OrderedCollections
+	# Plotting API and toolset.
+	using Plots
+	# Make html"<input>" a bit more Julian.
+	using PlutoUI
 
+	#=========================================================================
+	Unregisted (custom) packages
+	=========================================================================#
 	include("./phases/phase1.jl")
     using .phase1
 	include("./phases/phase2.jl")
     using .phase2
 	include("./phases/phase3.jl")
     using .phase3
-	
-	# Display a Table of Contents.
+	include("./utils.jl")
+    using .utils
+
+	#=========================================================================
+	Display a Table of Contents.
+	=========================================================================#
 	PlutoUI.TableOfContents()
-end;
+end
 
 
 # ╔═╡ 7bbdeac0-03d7-11ee-1bdc-2da77bda1117
 md"""
-# Project: Red Blood Cell Production
+# Red Blood Cell Production
 
 Author: Ramsey (Rayla) Phuc
 
@@ -61,7 +72,7 @@ md"""
 This block of code initializes all the relevant variables and parameters that 
 will be used in this notebook.
 =============================================================================#
-vars_params = let
+begin
 	@variables R, M, t
 	variables_dict = OrderedCollections.OrderedDict(
 		# Number of Red Blood Cells circulating in the blood on day 0.
@@ -85,8 +96,10 @@ vars_params = let
 	# Number of days to model.
 	tₘₐₓ = 10
 
-	# Return everything as a tuple.
-	vars_params = variables_dict, parameters_dict, colors, tₘₐₓ
+	# A boolean to determine if the y-axis of graphs should be displayed as 
+    # total population or a percentage of the initial population. `true` to 
+    # normalize the data set. `false` to use raw data set.
+	normalize = true
 end;
 
 # ╔═╡ 84674538-955e-47a1-a2e3-76849badc5d1
@@ -118,13 +131,32 @@ end;
 
 # ╔═╡ 4e5b743a-6c95-4508-af9d-a3ceac3871af
 let
-	variables_dict, parameters_dict, colors, tₘₐₓ = vars_params
+	t_dict = OrderedCollections.OrderedDict()
+	R_dict = OrderedCollections.OrderedDict()
+	labels = OrderedCollections.OrderedDict()
 	
 	R₀, M₀ = collect(values(variables_dict))
 	fᵥₐₗ, γᵥₐₗₛ = collect(values(parameters_dict))
 	
-	tₛ, Rₛ, Mₛ = phase1.solve_model(model_1!, R₀, M₀, fᵥₐₗ, γᵥₐₗₛ, tₘₐₓ)
-	phase1.myPlot(tₛ, Rₛ, γᵥₐₗₛ, "Linear-Difference-Model", colors, R₀)
+	for (i, γᵥₐₗ) in enumerate(γᵥₐₗₛ)
+		tₛ, Rₛ, Mₛ = phase1.solve_model(model_1!, R₀, M₀, fᵥₐₗ, γᵥₐₗ, tₘₐₓ)
+		labels[i] = "γ=$γᵥₐₗ"
+		t_dict["t_$i"] = tₛ
+		R_dict["R_$i"] = Rₛ'[:, 1]
+	end
+	
+	if normalize
+		utils.myPlot(
+            tₘₐₓ, collect(values(t_dict)), collect(values(R_dict)), 
+            collect(values(labels)), colors, "Linear-Difference-Model", 
+            R₀
+		)
+	else
+		utils.myPlot(
+            tₘₐₓ, collect(values(t_dict)), collect(values(R_dict)), 
+            collect(values(labels)), colors, "Linear-Difference-Model"
+		)
+	end
 end
 
 # ╔═╡ 14f8dc03-342d-4ed9-be90-9e580538e6d3
@@ -147,31 +179,27 @@ function model_2!(dF, variables, parameters, t)
     R, M = variables
 	# Unpack the parameters.
     f, γ = parameters
-	dF[1] = M - f * R
-	dF[2] = γ * f * R - M
+	# Express the model in programming language.
+	dF[1] = dR = M - f * R
+	dF[2] = dM = γ * f * R - M
 	return dF
 end;
 
 # ╔═╡ da8673ac-7794-48bd-9af4-9c2faa4c2a64
 let
-	variables_dict, parameters_dict, colors, tₘₐₓ = vars_params
-
 	t_dict = OrderedCollections.OrderedDict()
 	R_dict = OrderedCollections.OrderedDict()
 	labels = OrderedCollections.OrderedDict()
 	
-	@parameters f, γₛ, γ
-	
-	# Numerically solve the proposed model.
-	for (i, γᵥₐᵥ) in enumerate(parameters_dict[γₛ])
+	for (i, γᵥₐₗ) in enumerate(parameters_dict[γₛ])
 		parameters_dict = OrderedCollections.OrderedDict(
 			# Fraction of Red Blood Cells the spleen removes.
 			f => 0.5, 
 			# Number of Red Blood Cells produced per number of Red Blood Cells 
-			# lost.
-			γ => γᵥₐᵥ
+            # lost.
+			γ => γᵥₐₗ
 		)
-		labels[i] = "γ=$γᵥₐᵥ"
+		labels[i] = "γ=$γᵥₐₗ"
 		sol = phase2.solve_model(
             model_2!, variables_dict, parameters_dict, tₘₐₓ
             )
@@ -179,12 +207,18 @@ let
 		R_dict["R_$i"] = sol'[:, 1]
 	end
 	
-	@variables R
-	phase2.myPlot(
-        collect(values(t_dict)), collect(values(R_dict)), 
-        collect(values(labels)), "Linear-Differential-Model", colors, 
-        variables_dict[R]
-        )
+	if normalize
+		utils.myPlot(
+            tₘₐₓ, collect(values(t_dict)), collect(values(R_dict)), 
+            collect(values(labels)), colors, "Linear-Differential-Model", 
+            variables_dict[R]
+		)
+	else
+		utils.myPlot(
+            tₘₐₓ, collect(values(t_dict)), collect(values(R_dict)), 
+            collect(values(labels)), colors, "Linear-Differential-Model"
+		)
+	end
 end
 
 # ╔═╡ 5fffeb04-a555-43cd-9f82-207d41218dd6
@@ -216,13 +250,32 @@ end;
 
 # ╔═╡ 73bedd3b-37a9-4fda-b19b-e62291044bcd
 let
-	variables_dict, parameters_dict, colors, tₘₐₓ = vars_params
+	t_dict = OrderedCollections.OrderedDict()
+	R_dict = OrderedCollections.OrderedDict()
+	labels = OrderedCollections.OrderedDict()
 	
 	R₀, M₀ = collect(values(variables_dict))
 	fᵥₐₗ, γᵥₐₗₛ = collect(values(parameters_dict))
 	
-	tₛ, Rₛ, Mₛ = phase3.solve_model(model_3!, R₀, M₀, γᵥₐₗₛ, tₘₐₓ)
-	phase3.myPlot(tₛ, Rₛ, γᵥₐₗₛ, "Nonlinear-Difference-Model", colors, R₀)
+	for (i, γᵥₐₗ) in enumerate(γᵥₐₗₛ)
+		tₛ, Rₛ, Mₛ = phase3.solve_model(model_3!, R₀, M₀, γᵥₐₗ, tₘₐₓ)
+		labels[i] = "γ=$γᵥₐₗ"
+		t_dict["t_$i"] = tₛ
+		R_dict["R_$i"] = Rₛ'[:, 1]
+	end
+	
+	if normalize
+		utils.myPlot(
+            tₘₐₓ, collect(values(t_dict)), collect(values(R_dict)), 
+            collect(values(labels)), colors, "Nonlinear-Difference-Model", 
+            R₀
+		)
+	else
+		utils.myPlot(
+            tₘₐₓ, collect(values(t_dict)), collect(values(R_dict)), 
+            collect(values(labels)), colors, "Nonlinear-Difference-Model"
+		)
+	end
 end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
