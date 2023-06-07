@@ -15,27 +15,27 @@ begin
 	Registed packages
 	=========================================================================#
 	# Numerically solve differential equations.
-	using DifferentialEquations
+	import DifferentialEquations
 	# High-performance symbolic-numeric computation.
-	using ModelingToolkit
+	import ModelingToolkit
 	# A package to maintain the order of dictionaries.
-	using OrderedCollections
+	import OrderedCollections
 	# Plotting API and toolset.
-	using Plots
+	import Plots
 	# Make html"<input>" a bit more Julian.
-	using PlutoUI
+	import PlutoUI
 
 	#=========================================================================
 	Unregisted (custom) packages
 	=========================================================================#
 	include("./phases/phase1.jl")
-    using .phase1
+    import .phase1
 	include("./phases/phase2.jl")
-    using .phase2
+    import .phase2
 	include("./phases/phase3.jl")
-    using .phase3
+    import .phase3
 	include("./utils.jl")
-    using .utils
+    import .utils
 
 	#=========================================================================
 	Display a Table of Contents.
@@ -129,7 +129,7 @@ function model_1!(U, parameters, n)
 	# Compute the model at day n+1.
     R[n + 1] = (1 - f) * R[n] + M[n]
     M[n + 1] = γ * f * R[n]
-	# Return the value(s) of the model at day n+1.
+	# Return the value(s) of the model at day n+1
     return U
 end;
 
