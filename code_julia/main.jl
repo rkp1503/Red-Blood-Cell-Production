@@ -6,9 +6,9 @@ using InteractiveUtils
 
 # ╔═╡ 20a4cf75-5e7d-44e2-9abf-0ecb02da354f
 #=============================================================================
-This block of code imports relevant packages that are needed to run this 
-notebook and generate a table of contents on the right hand side of the 
-screen.
+This block of code initializes this notebook by
+	1. Importing the packages necessary to run this notebook.
+	2. Generating a Table of Contents on the right hand side of the screen.
 =============================================================================#
 begin
 	#=========================================================================
@@ -80,6 +80,9 @@ begin
 		# Number of Red Blood Cells produced by the bone marrow on day 0.
 		M => 100
 	)
+
+	# An list/array of γ values.
+	γₗᵢₛₜ = [1, 0.5, 2]
 	
 	@parameters f, γₛ, γ
 	parameters_dict = OrderedCollections.OrderedDict(
@@ -87,11 +90,12 @@ begin
 		f => 0.5, 
 		# Number of Red Blood Cells produced per number of Red Blood Cells 
 		# lost.
-		γₛ => [1, 0.5, 2]
+		γₛ => γₗᵢₛₜ
 	)
 
 	# Colors for each value of γ.
 	colors = ["Black", "Red", "Blue"]
+	γ_colors = OrderedCollections.OrderedDict(zip(γₗᵢₛₜ, colors))
 
 	# Number of days to model.
 	tₘₐₓ = 10
@@ -117,45 +121,42 @@ ${
 """
 
 # ╔═╡ 4910100e-3704-4d1b-af9f-1130473db2ed
-function model_1!(F, parameters, n)
+function model_1!(U, parameters, n)
 	# Unpack the variables.
-    R, M = F
+    R, M = U
 	# Unpack the parameters.
     f, γ = parameters
 	# Compute the model at day n+1.
     R[n + 1] = (1 - f) * R[n] + M[n]
     M[n + 1] = γ * f * R[n]
 	# Return the value(s) of the model at day n+1.
-    return F
+    return U
 end;
 
 # ╔═╡ 4e5b743a-6c95-4508-af9d-a3ceac3871af
 let
 	t_dict = OrderedCollections.OrderedDict()
 	R_dict = OrderedCollections.OrderedDict()
-	labels = OrderedCollections.OrderedDict()
 	
 	R₀, M₀ = collect(values(variables_dict))
 	fᵥₐₗ, γᵥₐₗₛ = collect(values(parameters_dict))
 	
 	for (i, γᵥₐₗ) in enumerate(γᵥₐₗₛ)
 		tₛ, Rₛ, Mₛ = phase1.solve_model(model_1!, R₀, M₀, fᵥₐₗ, γᵥₐₗ, tₘₐₓ)
-		labels[i] = "γ=$γᵥₐₗ"
 		t_dict["t_$i"] = tₛ
 		R_dict["R_$i"] = Rₛ'[:, 1]
 	end
 	
 	if normalize
 		utils.myPlot(
-            tₘₐₓ, collect(values(t_dict)), collect(values(R_dict)), 
-            collect(values(labels)), colors, "Linear-Difference-Model", 
-            R₀
-		)
+            tₘₐₓ, collect(values(t_dict)), collect(values(R_dict)), γ_colors, 
+            "Linear-Difference-Model",  R₀
+            )
 	else
 		utils.myPlot(
-            tₘₐₓ, collect(values(t_dict)), collect(values(R_dict)), 
-            collect(values(labels)), colors, "Linear-Difference-Model"
-		)
+            tₘₐₓ, collect(values(t_dict)), collect(values(R_dict)), γ_colors, 
+            "Linear-Difference-Model"
+            )
 	end
 end
 
@@ -174,50 +175,45 @@ ${
 """
 
 # ╔═╡ 234d35db-b0f3-49e3-a541-3d0f0cd1e8f4
-function model_2!(dF, variables, parameters, t)
+function model_2!(dU, variables, parameters, t)
 	# Unpack the variables.
     R, M = variables
 	# Unpack the parameters.
     f, γ = parameters
 	# Express the model in programming language.
-	dF[1] = dR = M - f * R
-	dF[2] = dM = γ * f * R - M
-	return dF
+	dU[1] = dR = M - f * R
+	dU[2] = dM = γ * f * R - M
+	return dU
 end;
 
 # ╔═╡ da8673ac-7794-48bd-9af4-9c2faa4c2a64
 let
 	t_dict = OrderedCollections.OrderedDict()
 	R_dict = OrderedCollections.OrderedDict()
-	labels = OrderedCollections.OrderedDict()
 	
 	for (i, γᵥₐₗ) in enumerate(parameters_dict[γₛ])
-		parameters_dict = OrderedCollections.OrderedDict(
+		param_dict = OrderedCollections.OrderedDict(
 			# Fraction of Red Blood Cells the spleen removes.
 			f => 0.5, 
 			# Number of Red Blood Cells produced per number of Red Blood Cells 
             # lost.
 			γ => γᵥₐₗ
 		)
-		labels[i] = "γ=$γᵥₐₗ"
-		sol = phase2.solve_model(
-            model_2!, variables_dict, parameters_dict, tₘₐₓ
-            )
+		sol = phase2.solve_model(model_2!, variables_dict, param_dict, tₘₐₓ)
 		t_dict["t_$i"] = sol.t
 		R_dict["R_$i"] = sol'[:, 1]
 	end
 	
 	if normalize
 		utils.myPlot(
-            tₘₐₓ, collect(values(t_dict)), collect(values(R_dict)), 
-            collect(values(labels)), colors, "Linear-Differential-Model", 
-            variables_dict[R]
-		)
+            tₘₐₓ, collect(values(t_dict)), collect(values(R_dict)), γ_colors,
+			"Linear-Differential-Model", variables_dict[R]
+            )
 	else
 		utils.myPlot(
-            tₘₐₓ, collect(values(t_dict)), collect(values(R_dict)), 
-            collect(values(labels)), colors, "Linear-Differential-Model"
-		)
+            tₘₐₓ, collect(values(t_dict)), collect(values(R_dict)), γ_colors,
+			"Linear-Differential-Model"
+            )
 	end
 end
 
@@ -236,45 +232,42 @@ ${
 """
 
 # ╔═╡ 1d534626-93f1-4a18-8d9b-f8d86353f172
-function model_3!(F, parameters, n)
+function model_3!(U, parameters, n)
 	# Unpack the variables.
-    R, M = F
+    R, M = U
 	# Unpack the parameters.
     γ = parameters
 	# Compute the model at day n+1.
     R[n + 1] = (R[n] / (R[n] + 1)) + M[n]
     M[n + 1] = γ * R[n] * (1 - (1 / (1 + R[n])))
 	# Return the value(s) of the model at day n+1.
-    return F
+    return U
 end;
 
 # ╔═╡ 73bedd3b-37a9-4fda-b19b-e62291044bcd
 let
 	t_dict = OrderedCollections.OrderedDict()
 	R_dict = OrderedCollections.OrderedDict()
-	labels = OrderedCollections.OrderedDict()
 	
 	R₀, M₀ = collect(values(variables_dict))
 	fᵥₐₗ, γᵥₐₗₛ = collect(values(parameters_dict))
 	
 	for (i, γᵥₐₗ) in enumerate(γᵥₐₗₛ)
 		tₛ, Rₛ, Mₛ = phase3.solve_model(model_3!, R₀, M₀, γᵥₐₗ, tₘₐₓ)
-		labels[i] = "γ=$γᵥₐₗ"
 		t_dict["t_$i"] = tₛ
 		R_dict["R_$i"] = Rₛ'[:, 1]
 	end
 	
 	if normalize
 		utils.myPlot(
-            tₘₐₓ, collect(values(t_dict)), collect(values(R_dict)), 
-            collect(values(labels)), colors, "Nonlinear-Difference-Model", 
-            R₀
-		)
+            tₘₐₓ, collect(values(t_dict)), collect(values(R_dict)), γ_colors, 
+            "Nonlinear-Difference-Model", R₀
+            )
 	else
 		utils.myPlot(
-            tₘₐₓ, collect(values(t_dict)), collect(values(R_dict)), 
-            collect(values(labels)), colors, "Nonlinear-Difference-Model"
-		)
+            tₘₐₓ, collect(values(t_dict)), collect(values(R_dict)), γ_colors,"
+            Nonlinear-Difference-Model"
+            )
 	end
 end
 
