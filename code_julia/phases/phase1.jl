@@ -7,7 +7,6 @@ Project: Red Blood Cell Production
 
 module phase1
 
-    export solve_model
     function solve_model(model, R₀, M₀, f, γₛ, tₘₐₓ)
         Rₛ = zeros((length(γₛ), tₘₐₓ + 1))
         Mₛ = zeros((length(γₛ), tₘₐₓ + 1))
@@ -25,4 +24,5 @@ module phase1
         end
         return tₛ, Rₛ, Mₛ
     end;
+    
 end
