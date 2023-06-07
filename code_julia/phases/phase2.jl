@@ -12,10 +12,8 @@ using DifferentialEquations: ODEProblem, solve
         initial_vector = collect(values(vars_dict))
         parameter_values = collect(values(params_dict))
         t_span = (0, days)
-        problem = DifferentialEquations.ODEProblem(
-            model, initial_vector, t_span, parameter_values
-            )
-        return DifferentialEquations.solve(problem, reltol=1e-8, abstol=1e-8)
+        problem = ODEProblem(model, initial_vector, t_span, parameter_values)
+        return solve(problem, reltol=1e-8, abstol=1e-8)
     end;
     
 end
