@@ -6,7 +6,7 @@ Project: Red Blood Cell Production
 =============================================================================#
 
 module utils
-import Plots
+import Plots: plot, plot!
 
     function myPlot(tₘₐₓ, t_arr, R_arr, γ_colors, filename, normalize=1)
         figure = Plots.plot(
