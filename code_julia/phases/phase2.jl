@@ -6,7 +6,7 @@ Project: Red Blood Cell Production
 =============================================================================#
 
 module phase2
-using DifferentialEquations
+using DifferentialEquations: ODEProblem, solve
 
     function solve_model(model, vars_dict, params_dict, days)
         initial_vector = collect(values(vars_dict))
