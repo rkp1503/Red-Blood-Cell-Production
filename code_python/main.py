@@ -26,11 +26,10 @@ M_0: float = 100
 f: float = 0.5
 
 # Production constant (number produced per number lost)
-# gamma: float = 1
 gammas: list[float] = [1, 0.5, 2]
 
 # Population over t days
-t: int = 100
+t: int = 10
 
 phase1.main(R_0, M_0, f, gammas, t)
 phase2.main(R_0, M_0, f, gammas, t)
