@@ -6,9 +6,8 @@ Project: Red Blood Cell Production
 =============================================================================#
 
 module phase2
-    using DifferentialEquations
+using DifferentialEquations
 
-    export solve_model
     function solve_model(model, vars_dict, params_dict, days)
         initial_vector = collect(values(vars_dict))
         parameter_values = collect(values(params_dict))
@@ -18,4 +17,5 @@ module phase2
             )
         return DifferentialEquations.solve(problem, reltol=1e-8, abstol=1e-8)
     end;
+    
 end
